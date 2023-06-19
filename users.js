@@ -1,6 +1,5 @@
-var searchBar = document.querySelector(".uname");
-var searchIcon = document.querySelector(".search-btn");
-var usersList = document.querySelector(".user-list");
+const searchBar = document.querySelector(".uname");
+const usersList = document.querySelector(".user-list");
 
 searchBar.onkeyup = ()=>{
     let searchTerm = searchBar.value;

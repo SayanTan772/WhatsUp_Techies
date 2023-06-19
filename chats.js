@@ -1,8 +1,8 @@
 const form = document.querySelector(".mssg-box"),
-incoming_id = form.querySelector(".incoming_id").value,
 inputField = form.querySelector(".message"),
+sendBtn = form.querySelector(".send"),
 chatBox = document.querySelector(".chat-area"),
-sendBtn = form.querySelector(".send");
+incoming_id = document.querySelector(".incoming_id").value;
 
 form.onsubmit = (e)=>{
     e.preventDefault();
@@ -39,23 +39,25 @@ sendBtn.onclick = ()=>{
     xhr.send(formData);
 }
 
-setInterval(() => {
+setInterval(() =>{
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `get-chat.php?incoming_id=${incoming_id}`, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          let data = xhr.response;
-          chatBox.innerHTML = data;
-          if (!chatBox.classList.contains('active')) {
-            scrollToBottom();
+    xhr.open("POST", "get-chat.php", true);
+    xhr.onload = ()=>{
+      if(xhr.readyState === XMLHttpRequest.DONE){
+          if(xhr.status === 200){
+            let data = xhr.response;
+            chatBox.innerHTML = data;
+            if(!chatBox.classList.contains("active")){
+                scrollToBottom();
+              }
           }
-        }
       }
-    };
-    xhr.send();
-  }, 500);
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("incoming_id="+incoming_id);
+}, 500);
 
 function scrollToBottom(){
     chatBox.scrollTop = chatBox.scrollHeight;
-  } 
+}
+  

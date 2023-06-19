@@ -23,10 +23,15 @@ include "configure.php";
     <form class="myform" method="POST" action="#" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
     <p class="h2">Sign Up</p>
     <hr>
-    <div class="error" id="error" name="error"></div> <!--error message!-->
+    <div class="alert alert-danger" role="alert" id="error"></div> <!--error message!-->
+    <div class="alert alert-success" role="alert" id="success"></div> <!--success message!-->
     <div class="mb-3">
     <label for="exampleusername1" class="form-label">Username</label>
     <input type="text" name="username" class="form-control" id="username" aria-describedby="userameHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleemail1" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
     </div>
     <div class="mb-3">
     <label for="examplebio1" class="form-label">Tell Us About Yourself</label>

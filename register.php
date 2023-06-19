@@ -2,17 +2,19 @@
 
 include "configure.php";
     $username=$_POST["username"];
+    $email=$_POST["email"];
     $bio=$_POST["bio"];
     $password=$_POST["password"];
+    $status="offline";
 
     $image=$_FILES["file"];
 
-    if(!empty($username) && !empty($bio) && !empty($password)){
+    if(!empty($username) && !empty($email) && !empty($bio) && !empty($password)){
 
-        $res=mysqli_query($conn, "SELECT * FROM users WHERE Username='$username'");
+        $res=mysqli_query($conn, "SELECT * FROM users WHERE Email='$email'");
         $rows=mysqli_num_rows($res);
         if($rows>0){
-            echo "Username already Exists!";
+            echo "Account already exists with this Email!";
         }
         else{
             
@@ -30,16 +32,20 @@ include "configure.php";
                 $upload_image='./UserPF/'.$imgfilename;
                 move_uploaded_file($imgfiletemp, $upload_image);
 
-                if(strlen($password)<8){
-                    echo "Password should be atleast 8 characters!";
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    echo "Invalid Email!";  
                 }else{
-                $stmt=mysqli_stmt_init($conn);
-                $preparestmt=mysqli_stmt_prepare($stmt, "INSERT INTO users (Username, Bio, Password, Photo) VALUES (?, ?, ?, ?)");
-                if($preparestmt){
-                mysqli_stmt_bind_param($stmt, "ssss", $username, $bio, $password, $upload_image);
-                mysqli_stmt_execute($stmt);
-                echo "success";
-                }
+                    if(strlen($password)<8){
+                        echo "Password should be atleast 8 characters!";
+                    }else{
+                    $stmt=mysqli_stmt_init($conn);
+                    $preparestmt=mysqli_stmt_prepare($stmt, "INSERT INTO users (Username, Email, Bio, Password, Photo, sts) VALUES (?, ?, ?, ?, ?, ?)");
+                    if($preparestmt){
+                    mysqli_stmt_bind_param($stmt, "ssssss", $username, $email, $bio, $password, $upload_image, $status);
+                    mysqli_stmt_execute($stmt);
+                    echo "success";
+                    }
+                    }
                 }
             }
             else{

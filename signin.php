@@ -36,6 +36,7 @@ include "configure.php";
         <i class="fa-sharp fa-solid fa-eye-slash" id="closed-eye"></i>
         <i class="fa-solid fa-eye" id="open-eye"></i>
     </span>
+    <div class="forget"><a href="forgot-passwrd.php">forgot password ?</a></div>
     </div>
     </div>
     <button type="submit" class="signin-btn" name="signin-btn">Sign In</button>

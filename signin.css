@@ -125,3 +125,17 @@ input::-webkit-inner-spin-button {
     border-radius:6px;
     margin-bottom:10px;
 }
+.forget{
+    width:100%;
+    text-align:right;
+    margin-top:8px;
+    font-size:16px;
+}
+.forget a{
+    text-decoration:none;
+    color:hsla(268, 51%, 50%, 0.9);
+}
+.forget a:hover{
+    text-decoration:underline;
+    color:hsla(268, 51%, 50%, 0.8);
+}

@@ -1,10 +1,22 @@
 <?php 
     include_once "configure.php";
-    if(isset($_SESSION['uniqueID'])){
+    if(isset($_SESSION['uniqueID']) && isset($_POST['incoming_id'])){
         
         $outgoing_id = $_SESSION['uniqueID'];
-        $incoming_id = $_GET['incoming_id'];
+        $incoming_id = $_POST['incoming_id'];
         $output = "";
+        $blocked_msg = ""; // Variable to store blocked message
+
+        $is_blocked_by = mysqli_query($conn, "SELECT * FROM block_reqs WHERE send_id = $outgoing_id AND receive_id = $incoming_id AND block_sts = 'blocked'");
+        $is_blocked_to = mysqli_query($conn, "SELECT * FROM block_reqs WHERE send_id = $incoming_id AND receive_id = $outgoing_id AND block_sts = 'blocked'");
+
+        if(mysqli_num_rows($is_blocked_by)>0){
+            $blocked_msg = '<div class="blocked-message"><div class="box">You have blocked this user</div></div>';
+        }
+        if(mysqli_num_rows($is_blocked_to)>0){
+            $blocked_msg = '<div class="blocked-message"><div class="box large-box">You have been blocked by this user</div></div>';
+        }
+
         $sql = "SELECT * FROM messages WHERE (outgoing_msg_id = {$outgoing_id} AND incoming_msg_id = {$incoming_id})
                 OR (outgoing_msg_id = {$incoming_id} AND incoming_msg_id = {$outgoing_id}) ORDER BY msg_id";
         $query = mysqli_query($conn, $sql);
@@ -25,50 +37,13 @@
                 }
             }
         }else{
-            $sql1="SELECT * FROM friend_reqs WHERE sender_id=$incoming_id AND receiver_id={$_SESSION["uniqueID"]}";
-            $query=mysqli_query($conn, "SELECT * FROM users WHERE ID=$incoming_id");
-            $row1=mysqli_fetch_assoc($query);
-            if(mysqli_num_rows(mysqli_query($conn, $sql1))==0){
-                $check_query = "SELECT * FROM friend_reqs WHERE sender_id = {$_SESSION['uniqueID']} AND receiver_id = $incoming_id";
-                $res=mysqli_query($conn, $check_query);
-                if(mysqli_num_rows($res) == 0){
-                    $output .= '<div class="friend-req">
-                                <img src="./Media/kyle.svg">
-                                <div class="request">
-                                <form action="chats.php?user_id='.$incoming_id.'" method="POST">
-                                <input type="hidden" name="sender_id" value="'.$_SESSION["uniqueID"].'">
-                                <input type="hidden" name="receiver_id" value="'.$incoming_id.'">
-                                <input type="hidden" name="action" value="send_request">
-                                Hey '.$_SESSION["username"].'👋🏻 Would you like to send a Friend Request to '.$row1["Username"].' ?
-                                <br>
-                                <button type="submit" class="send-req">Send</button>
-                                </form>
-                                </div>
-                                </div>';
-                }else{
-                    $output .= '<div class="friend-req">
-                                <img src="./Media/kyle.svg">
-                                <div class="request">
-                                Friend Request send successfully! 🫡
-                                </div>
-                                </div>';
-                }
-
-            }elseif(mysqli_num_rows(mysqli_query($conn, $sql1))>0){
-                $output .= '<div class="friend-req">
-                            <img src="./Media/kyle.svg">
-                            <div class="request">
-                            <form action="chats.php?user_id='.$incoming_id.'" method="POST">
-                            <input type="hidden" name="sender_id" value="'.$incoming_id.'">
-                            <input type="hidden" name="receiver_id" value="'.$_SESSION["uniqueID"].'">
-                            <input type="hidden" name="action" value="accept_request">
-                            Accept or Reject '.$row1["Username"].'\'s Friend Request ?
-                            <br><button name="accept" class="accept"><i class="fa-solid fa-check fa-2x"></i></button><button name="reject" class="reject"><i class="fa-solid fa-xmark fa-2x"></i></button>
-                            </form>
-                            </div>
-                            </div>';
-            }
+            $output .= '<div class="default-mssg"><img src="./Media/kyle.svg"><div class="details">
+            <p>Opps😕 It looks like this chat is empty !</p>
+        </div></div>';
         }
+        // Append blocked message to the output
+        $output .= $blocked_msg;
+
         echo $output;
     }
 ?>

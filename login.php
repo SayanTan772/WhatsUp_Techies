@@ -16,8 +16,11 @@ if(!empty($username) && !empty($password)){
         if($password===$user["Password"]){
         $_SESSION["uniqueID"]=$user["ID"];
         $_SESSION["username"]=$user["Username"];
+        $_SESSION["email"]=$user["Email"];
         $_SESSION["bio"]=$user["Bio"];
         $_SESSION["pf"]=$user["Photo"];
+        $sql1 = "UPDATE users SET sts='Active now' WHERE ID={$user['ID']}";
+        mysqli_query($conn, $sql1);
         echo "success";
       }else{
         echo "Wrong Password!";

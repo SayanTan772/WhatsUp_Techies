@@ -1,5 +1,9 @@
 <?php
 include('configure.php');
+
+if(empty($_SESSION["uniqueID"])){
+  header("Location: signin.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +24,7 @@ include('configure.php');
     <div class="pf"><img src="<?=$_SESSION['pf']?>"></div>
     <div class="about">
       <p class="name"><?=$_SESSION['username']?></p>
+      <p class="email"><?=$_SESSION['email']?></p>
       <p class="bio"><?=$_SESSION['bio']?></p>
     </div>
   </div>

@@ -60,6 +60,12 @@ body{
     padding:20px 0px;
     line-height:24px;
 }
+.overlay .heading .about .description b{
+    color:hsl(0,100%,100%);
+}
+#description{
+    line-height:30px;
+}
 .overlay .btns{
     width:380px;
     display:flex;
@@ -117,28 +123,76 @@ body{
     bottom:-42px;
     z-index:3;
 }
-.nav-img{
-    width:450px;
-    height:300px;
-    position:absolute;
-    top:46%;
-    left:64%;
-    border-radius:5px;
+.slider-container{
+    width: 100%;
+    transform: translate(28%, -96%);
+}
+.swiper-wrapper{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}  
+.swiper-slide{
+    flex: none;
+}
+.slider-card{
+    width: 210px;
+    height: 90%;
+    background-color: hsl(0, 100%, 100%);
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+.img-div{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:2px solid #358ac7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.img-div img{
+    width:110px;
+    height:110px;
+}
+.card1 h2{
+    margin:15px 0px;
+}
+.text{
+    text-align:center;
+    font-size:14px;
+    font-weight:400px;
+    padding:0px 10px;
+}
+.buttons{
+    width:50%;
+    height:35px;
+    margin:25px 0px 0px 0px;
+    background-color:#1c6cb4;
+    color:white;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:400;
     cursor:pointer;
 }
-.img1{
-    z-index:6;
-    background-color:#3f358d;
-    transform: perspective(1300px) rotateY(-25deg) translateZ(100px);
+.buttons:hover{
+    background-color:#358ac7;
 }
-.img2{
-    z-index:5;
-    background-color:white;
-    transform: perspective(1300px) rotateY(-25deg) translateZ(40px) translateX(20px);
+.card2 img{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    object-position:center;
 }
-.img3{
-    z-index:4;
-    background-color:rgb(142, 47, 142);
-    border-radius:5px;
-    transform: perspective(1300px) rotateY(-25deg) translateZ(20px) translateX(50px);
+.card2 h2{
+    margin:8px 0px 15px 0px;
+}
+.card3 h2{
+    margin:15px 0px;
 }

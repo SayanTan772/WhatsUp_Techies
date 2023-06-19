@@ -14,7 +14,7 @@ Btn.onclick = ()=>{
           if(xhr.status === 200){
               let data = xhr.response;
               if(data === "success"){
-                location.href = "chats.php";
+                location.href = "landing.php";
               }else{
                 error.style.display = "flex";
                 error.textContent = data;

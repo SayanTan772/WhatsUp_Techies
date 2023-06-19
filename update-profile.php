@@ -1,35 +1,9 @@
 <?php
-
 include('configure.php');
 
-if(isset($_POST["username"]) && isset($_POST["bio"])){
-
-  $username=$_POST["username"];
-  $bio=$_POST["bio"];
-
-  if(isset($_FILES["inputfile"]["name"]) && $_FILES["inputfile"]["error"]==0){
-  $src = $_FILES["inputfile"]["tmp_name"];
-  $imageName = $_FILES["inputfile"]["name"];
-
-  $target = "./UserPF/". $imageName;
-
-  move_uploaded_file($src, $target);
-
-  $sql = "UPDATE users SET Username='$username', Bio='$bio', Photo='$target' WHERE ID='{$_SESSION['uniqueID']}'";
-  mysqli_query($conn, $sql);
-  $_SESSION['username']=$username;
-  $_SESSION['bio']=$bio;
-  $_SESSION['pf']=$target;
-
-  }
-  else{
-  $sql = "UPDATE users SET Username='$username', Bio='$bio' WHERE ID='{$_SESSION['uniqueID']}'";
-  mysqli_query($conn, $sql);
-  $_SESSION['username']=$username;
-  $_SESSION['bio']=$bio;
-  }
+if(empty($_SESSION["uniqueID"])){
+  header("Location: signin.php");
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,9 +45,8 @@ if(isset($_POST["username"]) && isset($_POST["bio"])){
       </div> <!--front card ends!-->
 
       <div class="backcard"> <!--back card starts!-->
-      <div class="back-btn"><i class="fa-solid fa-circle-chevron-left fa-2x"></i></div>
-      <div class="img-div"><i class="fa-solid fa-check fa-4x"></i></div>
-      <div class="success-msg">Successfully Saved Changes!</div>
+      <div class="back-btn"><span style="font-size:30px;"><i class="fa-solid fa-circle-chevron-left"></i></span></div>
+      <img src="./Media/profile-edit.svg">
       </div> <!--back card ends!-->
 
     </div> <!--main container ends!--->
@@ -83,6 +56,18 @@ if(isset($_POST["username"]) && isset($_POST["bio"])){
   }
   </script>
   <script src="https://kit.fontawesome.com/146a70a82f.js" crossorigin="anonymous"></script>
-  <script src="slide.js"></script>
+  <script src="update-profile.js"></script>
+  <script>
+    const btn=document.querySelector(".save-btn");
+    const front=document.querySelector(".frontcard");
+    const back=document.querySelector(".back-btn");
+
+    btn.addEventListener("click", function(){
+        front.classList.add("slide-back");
+    });
+    back.addEventListener("click", function(){
+        front.classList.remove("slide-back");
+    });
+  </script>
   </body>
 </html>

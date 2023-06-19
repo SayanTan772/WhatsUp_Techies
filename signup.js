@@ -1,9 +1,10 @@
-const form = document.querySelector(".myform"),
-Btn = form.querySelector(".signup-btn"),
-error = form.querySelector(".error");
+const form = document.querySelector(".myform");
+const Btn = form.querySelector(".signup-btn");
+const error = form.querySelector("#error");
+const success = form.querySelector("#success");
 
 form.onsubmit = (e)=>{
-    e.preventDefault();
+    e.preventDefault(); // prevents form from submitting
 }
 
 Btn.onclick = ()=>{
@@ -14,10 +15,13 @@ Btn.onclick = ()=>{
           if(xhr.status === 200){
               let data = xhr.response;
               if(data === "success"){
-                location.href="signin.php";
+                success.style.display = "flex"; // show the success box
+                success.textContent = "Registered successfully!"; // set the success message
+                error.style.display = "none"; // hide the error box
               }else{
-                error.style.display = "flex";
-                error.textContent = data;
+                error.style.display = "flex"; // show the error box
+                error.textContent = data; // set the error message
+                success.style.display = "none"; // hide the success box if there's an error
               }
           }
       }
